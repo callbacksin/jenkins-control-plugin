@@ -342,6 +342,7 @@ public final class BrowserPanel extends SimpleToolWindowPanel implements Persist
     private void installActionsInToolbar() {
         DefaultActionGroup actionGroup = new DefaultActionGroup("JenkinsToolbarGroup", false);
         actionGroup.add(new SelectViewAction(this));
+        actionGroup.add(new CreateJobAction(this));
         actionGroup.add(new RefreshNodeAction(this));
         actionGroup.add(ActionManager.getInstance().getAction(LoadBuildsAction.ACTION_ID));
         actionGroup.add(ActionManager.getInstance().getAction(RunBuildAction.ACTION_ID));
@@ -358,6 +359,7 @@ public final class BrowserPanel extends SimpleToolWindowPanel implements Persist
         DefaultActionGroup popupGroup = new DefaultActionGroup("JenkinsPopupAction", true);
 
         popupGroup.add(ActionManager.getInstance().getAction(RunBuildAction.ACTION_ID));
+        popupGroup.add(ActionManager.getInstance().getAction(OpenScriptAction.ACTION_ID));
         popupGroup.add(new StopBuildAction(this));
         popupGroup.add(new ShowLogAction(BuildType.LAST));
         popupGroup.add(new ShowLogAction(BuildType.LAST_SUCCESSFUL));
@@ -590,5 +592,9 @@ public final class BrowserPanel extends SimpleToolWindowPanel implements Persist
         public void queue() {
             task.queue();
         }
+    }
+
+    public boolean hasXMLScriptTag(@NotNull Job job) {
+        return requestManager.hasScriptTag(job);
     }
 }

@@ -8,6 +8,7 @@ import org.codinjutsu.tools.jenkins.model.*;
 import org.codinjutsu.tools.jenkins.security.JenkinsVersion;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -47,4 +48,14 @@ public interface RequestManagerInterface {
     List<Computer> loadComputer(JenkinsAppSettings settings);
 
     List<String> getGitParameterChoices(Job job, JobParameter jobParameter);
+
+    boolean hasScriptTag(Job job);
+
+    void createJob(String jobName, String jobXml) throws IOException;
+
+    String getJobScript(String jobXml);
+
+    String loadJobConfig(Job job);
+
+    void updateJobConfig(Job job, String configXml) throws IOException;
 }

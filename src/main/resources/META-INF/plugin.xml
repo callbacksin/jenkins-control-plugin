@@ -28,6 +28,7 @@
         <projectService serviceImplementation="org.codinjutsu.tools.jenkins.JenkinsWindowManager"/>
         <projectService serviceImplementation="org.codinjutsu.tools.jenkins.view.JenkinsWidget"/>
         <projectService serviceImplementation="org.codinjutsu.tools.jenkins.logic.RequestManager"/>
+        <projectService serviceImplementation="org.codinjutsu.tools.jenkins.logic.attributes.JenkinsVirtualFileAttributesService"/>
         <projectService serviceImplementation="org.codinjutsu.tools.jenkins.logic.UrlBuilder"/>
         <projectService serviceImplementation="org.codinjutsu.tools.jenkins.view.BrowserPanel"/>
         <projectService serviceImplementation="org.codinjutsu.tools.jenkins.logic.RssLogic"/>
@@ -58,7 +59,15 @@
         <aboutPopupDescriptionProvider implementation="org.codinjutsu.tools.jenkins.view.JenkinsAbout" />
         <notificationGroup displayType="NONE" id="Jenkins Rss" />
         <notificationGroup displayType="TOOL_WINDOW" id="Jenkins Notification" toolWindowId="Jenkins"/>
+
+        <editorFloatingToolbarProvider
+                implementation="org.codinjutsu.tools.jenkins.view.action.synchronizer.SyncToolbarProvider"/>
     </extensions>
+
+    <applicationListeners>
+        <listener class="org.codinjutsu.tools.jenkins.view.FileEditorEventsListener"
+                  topic="com.intellij.openapi.fileEditor.FileEditorManagerListener$Before"/>
+    </applicationListeners>
 
     <actions>
         <action id="Jenkins.LoadBuilds" class="org.codinjutsu.tools.jenkins.view.action.LoadBuildsAction"
@@ -74,6 +83,23 @@
                 icon="AllIcons.Actions.Execute"
         >
             <override-text place="GoToAction" text="Jenkins: Build on Jenkins" />
+        </action>
+
+        <action id="Jenkins.SyncEditor"
+                class="org.codinjutsu.tools.jenkins.view.action.synchronizer.SyncAction"
+                icon="AllIcons.Actions.BuildLoadChanges"
+                text="Sync Data">
+            <keyboard-shortcut first-keystroke="control shift S" keymap="$default"/>
+        </action>
+
+        <group id="org.codinjutsu.tools.jenkins.view.action.synchronizer.SyncActionGroup" popup="true">
+            <reference id="Jenkins.SyncEditor"/>
+        </group>
+
+        <action id="Jenkins.OpenScript"
+                class="org.codinjutsu.tools.jenkins.view.action.OpenScriptAction"
+                icon="AllIcons.Actions.Annotate"
+                text="Open Job Script">
         </action>
     </actions>
 

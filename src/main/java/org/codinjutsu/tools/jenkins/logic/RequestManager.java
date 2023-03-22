@@ -51,6 +51,9 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import static org.codinjutsu.tools.jenkins.util.ScriptParserUtilKt.getScriptContent;
+import static org.codinjutsu.tools.jenkins.util.ScriptParserUtilKt.hasScriptXMLTag;
+
 public class RequestManager implements RequestManagerInterface, Disposable {
 
     private static final Logger logger = Logger.getInstance(RequestManager.class);
@@ -222,6 +225,47 @@ public class RequestManager implements RequestManagerInterface, Disposable {
         URL url = urlBuilder.createJobUrl(jenkinsJobUrl);
         String jenkinsJobData = securityClient.execute(url);
         return jsonParser.createJob(jenkinsJobData);
+    }
+
+    @Override
+    public boolean hasScriptTag(Job job) {
+        try {
+            String jobXml = jenkinsServer.getJobXml(job.getFullName());
+            return hasScriptXMLTag(jobXml);
+        } catch (IOException e) {
+            logger.warn("cannot load xml config for " + job.getFullName());
+        }
+        return false;
+    }
+
+    @Override
+    public void createJob(String jobName, String jobXml) throws IOException {
+        jenkinsServer.createJob(jobName, jobXml);
+    }
+
+    @Override
+    public String getJobScript(String jobXml) {
+        try {
+            return getScriptContent(jobXml);
+        } catch (Exception e) {
+            logger.warn("cannot load script. the jobXml was:\n " + jobXml);
+        }
+        return null;
+    }
+
+    @Override
+    public String loadJobConfig(Job job) {
+        try {
+            return jenkinsServer.getJobXml(job.getFullName());
+        } catch (IOException e) {
+            logger.warn("cannot load xml config for " + job.getFullName());
+        }
+        return null;
+    }
+
+    @Override
+    public void updateJobConfig(Job job, String configXml) throws IOException {
+        jenkinsServer.updateJob(job.getName(), configXml);
     }
 
     @NotNull

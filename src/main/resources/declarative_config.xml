@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<flow-definition plugin="workflow-job@1186.v8def1a_5f3944">
+    <actions>
+        <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e"/>
+        <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e">
+            <jobProperties/>
+            <triggers/>
+            <parameters/>
+            <options/>
+        </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+    </actions>
+    <description>descriptionContentString</description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.7.1">
+            <siteName>https://jira.ibagroup.eu/</siteName>
+        </hudson.plugins.jira.JiraProjectProperty>
+        <com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin="gitlab-plugin@1.5.34">
+            <gitLabConnection>code.iby.scdc.io-connection</gitLabConnection>
+            <jobCredentialId/>
+            <useAlternativeCredential>false</useAlternativeCredential>
+        </com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty>
+    </properties>
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2725.v7b_c717eb_12ce">
+        <script></script>
+        <sandbox>true</sandbox>
+    </definition>
+    <triggers/>
+    <disabled>false</disabled>
+</flow-definition>
